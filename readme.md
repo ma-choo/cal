@@ -16,7 +16,6 @@ Windows:
 	
 Roadmap
 -------
-* Show multiple events in one day.
 * Show events from the previous month and next month in the events window.
 * Read and write calendar and event files.
 	* Implement .ical format compatibility.
