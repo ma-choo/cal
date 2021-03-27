@@ -1,14 +1,15 @@
 
-jenda
+Cal
 =====
-A Google Calendar-esque console application.
+A Google Calendar-esque console application using Curses.
 
 Building
 --------
-This requires the PDCurses library to build on Windows. It should build with regular ncurses on Linux, too.
+Build with standard Curses library on Linux or PDCurses library on Windows.
 https://pdcurses.org/
-Add PDCurses to your gcc library. Until I can figure out makefiles, just run this at the terminal:
-
+Linux:
+	gcc jenda.c greg.c date.c ui.c calendar.c event.c -lpdcurses -fno-common
+Windows:
 	gcc jenda.c greg.c date.c ui.c calendar.c event.c -lpdcurses -fno-common
 	
 Roadmap
