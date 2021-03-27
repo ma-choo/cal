@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <string.h>
-
 #include "calendar.h"
 
 calendar_t calendar_init(char *name)

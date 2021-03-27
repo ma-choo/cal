@@ -6,8 +6,9 @@
 #include "event.h"
 
 static int screen_h, screen_w;
-static int calendar_h, calendar_w;
-static int events_h, events_w, events_hfactor, events_wfactor;
+static int calendar_h, calendar_w, calendar_y, calendar_x;
+static int events_h, events_w, events_y, events_x, events_hfactor, events_wfactor;
+static int promptwin_h, promptwin_w, promptwin_y, promptwin_x;
 
 static int selected_day, working_month, working_year;
 static int first_day_offset;
@@ -25,7 +26,7 @@ void ui_init_working_date()
 int ui_change_working_date(int i)
 {
 	selected_day += i;
-	if(selected_day > get_days_in_month(working_month))
+	if (selected_day > get_days_in_month(working_month))
 	{
 		selected_day -= get_days_in_month(working_month);
 		working_month++;
@@ -37,7 +38,7 @@ int ui_change_working_date(int i)
 		first_day_offset = zeller(working_month, working_year);
 		return 1;
 	}
-	else if(selected_day < 1)
+	else if (selected_day < 1)
 	{
 		working_month--;
 		if(working_month < 0)
@@ -70,15 +71,24 @@ void ui_init_windows()
 	
 	calendar_h = 9;
 	calendar_w = 22;
+	calendar_y = 0;
+	calendar_x = 0;
 
 	events_hfactor = (screen_h - 2) / 6;
 	events_wfactor = ((screen_w - calendar_w) - 2) / 7;
 	events_h = (events_hfactor * 6) + 1;
 	events_w = (events_wfactor * 7) + 1;
+	events_y = 0;
+	events_x = calendar_w;
+
+	promptwin_h = 1;
+	promptwin_w = screen_w;
+	promptwin_y = events_h;
+	promptwin_x = 0;
 	
-	calendarwin = newwin(calendar_h, calendar_w, 0, 0);
-	eventswin = newwin(events_h, events_w, 0, calendar_w);
-	promptwin = newwin(1, screen_w, events_h, 0);
+	calendarwin = newwin(calendar_h, calendar_w, calendar_y, calendar_x);
+	eventswin = newwin(events_h, events_w, events_y, events_x);
+	promptwin = newwin(promptwin_h, promptwin_w, promptwin_y, promptwin_x);
 }
 
 void ui_del_windows()
@@ -97,7 +107,7 @@ void ui_draw_calendarwin()
 	
 	for(int d = 1, y = 2, x = first_day_offset; d <= get_days_in_month(working_month); d++)
 	{
-		if(d == get_current_day() && working_month == get_current_month())
+		if(d == get_current_day() && working_month == get_current_month() && working_year == get_current_year())
 			wattron(calendarwin, COLOR_PAIR(7));
 		else
 			wattroff(calendarwin, COLOR_PAIR(7));
@@ -136,7 +146,7 @@ void ui_draw_eventswin_days()
 	{
 		if(day == selected_day)
 			wattron(eventswin, A_REVERSE);
-		else if(day == get_current_day() && working_month == get_current_month())
+		else if(day == get_current_day() && working_month == get_current_month() && working_year == get_current_year())
 			wattron(eventswin, COLOR_PAIR(7));
 		
 		mvwprintw(eventswin, y, 1 + x * events_wfactor, "%*d", events_wfactor - 1, day);
@@ -164,15 +174,20 @@ void ui_draw_eventswin_calevents(calendar_t cal)
 		if(events[i].month == working_month + 1)
 		{
 			int day_pos = events[i].day - 1 + first_day_offset;
+
 			int y = day_pos / 7;
 			int x = day_pos % 7;
-			mvwprintw(eventswin, y * events_hfactor + 2, x * events_wfactor + 1, "%s", events[i].name);
+			y = y * events_hfactor + 2;
+			x = x * events_wfactor + 1;
+
+			while(mvwinch(eventswin, y, x) != ' ') y++; // Move down if an event was already printed here
+			mvwprintw(eventswin, y, x, "%s", events[i].name);
 		}
 		wattroff(eventswin, COLOR_PAIR(1));
 	}
 }
 
-void promptwin_echo(int key)
+void ui_promptwin_echo(int key)
 {
 	mvwprintw(promptwin, 0, 0, "%c - ", key);
 	switch(key)
@@ -196,7 +211,7 @@ void promptwin_echo(int key)
 		mvwprintw(promptwin, 0, 4, "Are you sure?");
 		break;               
 		default:             
-		mvwprintw(promptwin, 0, 0, "jenda version 0.01 - type '?' for help");
+		mvwprintw(promptwin, 0, 0, "cal version 0.01 - type '?' for help");
 	}
 	wclrtoeol(promptwin);
 	wrefresh(promptwin);

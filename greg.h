@@ -1,5 +1,5 @@
-#ifndef CALENDARMATH_H
-#define CALENDARMATH_H
+#ifndef GREG_H
+#define GREG_H
 
 static char *month_name[12];
 static char *mon_name[12];

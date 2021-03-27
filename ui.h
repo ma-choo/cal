@@ -23,6 +23,6 @@ void ui_draw_eventswin_border();
 void ui_draw_eventswin_days();
 void ui_draw_eventswin_calevents(calendar_t cal);
 
-void promptwin_echo(int key);
+void ui_promptwin_echo(int key);
 
 #endif

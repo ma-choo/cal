@@ -1,6 +1,5 @@
 #ifndef CALENDAR_H
 #define CALENDAR_H
-
 #include "cvector.h"
 #include "event.h"
 

@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <string.h>
-
 #include "event.h"
 
 event_t event_init(char *name, int day, int month, int year)

@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <curses.h>
-
 #include "cvector.h"
 #include "greg.h"
 #include "date.h"
@@ -25,11 +24,13 @@ int main()
 	
 	event_t event1 = event_init("Test Event 1", 6, 4, 2021);
 	event_t event2 = event_init("Test Event 2", 16, 4, 2021);
-	event_t event3 = event_init("Test Event 3", 2, 7, 2021);
+	event_t event3 = event_init("Test Event 3", 6, 4, 2021);
+	event_t event4 = event_init("Test Event 4", 6, 4, 2021);
 	
 	vector_push_back(calendar_list[0].events, event1);
 	vector_push_back(calendar_list[0].events, event2);
 	vector_push_back(calendar_list[0].events, event3);
+	vector_push_back(calendar_list[0].events, event4);
 
 	init_current_time();
 
@@ -57,7 +58,7 @@ int main()
 		}
 		
 		ui_draw_eventswin_days();
-		promptwin_echo(key);
+		ui_promptwin_echo(key);
 		
 		key = getch();
 		
@@ -93,8 +94,6 @@ int main()
 			break;
 		}
 	}
-
-	// delwin(listwin);
 	ui_del_windows();
 	endwin();
 

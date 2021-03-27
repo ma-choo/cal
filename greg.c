@@ -1,6 +1,7 @@
 /*
  * greg.c - Gregorian calendar logic
  */
+
 static char *month_name[12] =
 {
 	"January",   "February", "March",    "April",
