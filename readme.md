@@ -1,12 +1,11 @@
 
 Cal
 =====
-A Google Calendar-esque console application using Curses.
+A Google Calendar-esque console application using the Curses library.
 
 Building
 --------
-Build with standard Curses library on Linux or PDCurses library on Windows.
-https://pdcurses.org/
+Build with standard Curses library on Linux or PDCurses library on Windows: https://pdcurses.org/
 
 Linux:
 
