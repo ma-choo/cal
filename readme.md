@@ -10,7 +10,7 @@ https://pdcurses.org/
 
 Linux:
 
-	gcc jenda.c greg.c date.c ui.c calendar.c event.c -lpdcurses -fno-common
+	gcc jenda.c greg.c date.c ui.c calendar.c event.c -lcurses -fno-common
 Windows:
 
 	gcc jenda.c greg.c date.c ui.c calendar.c event.c -lpdcurses -fno-common
