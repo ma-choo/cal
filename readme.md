@@ -7,9 +7,12 @@ Building
 --------
 Build with standard Curses library on Linux or PDCurses library on Windows.
 https://pdcurses.org/
+
 Linux:
+
 	gcc jenda.c greg.c date.c ui.c calendar.c event.c -lpdcurses -fno-common
 Windows:
+
 	gcc jenda.c greg.c date.c ui.c calendar.c event.c -lpdcurses -fno-common
 	
 Roadmap
